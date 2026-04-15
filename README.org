@@ -1,0 +1,75 @@
+#+TITLE: agent-shell-org-transcript
+
+Org-mode transcript support for [[https://github.com/xenodium/agent-shell][agent-shell]].
+
+Saves agent-shell conversation transcripts as =.org= files in
+=org-roam-directory= or a directory of your choice, with content
+converted from markdown to org-mode format (headings, code blocks,
+block quotes, bold).
+
+* Requirements
+
+- Emacs 29.1+
+- [[https://github.com/xenodium/agent-shell][agent-shell]] 0.50.1+
+
+* Installation
+
+** With =use-package= and =straight.el=
+
+#+begin_src emacs-lisp
+(use-package agent-shell-org-transcript
+  :straight (:host github :repo "lllShamanlll/agent-shell-org-transcript")
+  :after agent-shell)
+#+end_src
+
+** With MELPA
+
+Once available on MELPA:
+
+#+begin_src emacs-lisp
+(use-package agent-shell-org-transcript
+  :after agent-shell)
+#+end_src
+
+* Configuration
+
+By default, transcripts are saved to =org-roam-directory=.  To use a
+different directory:
+
+#+begin_src emacs-lisp
+(setq agent-shell-org-transcript-directory "~/notes/agent-shell/")
+#+end_src
+
+* How it works
+
+Loading the package installs advice on two internal agent-shell
+functions.  The advice is inactive unless the transcript file path
+ends in =.org=, so users not using org transcripts are unaffected.
+
+When active:
+
+- A new transcript file gets an org-id, =#+TITLE:=, =#+DATE:=,
+  =#+FILETAGS:=, and =#+PROPERTY:= fields so org-roam can index and
+  filter it by agent name and project.
+- Each appended chunk of text is converted: markdown ATX headers
+  become org headings, code fences become =#+begin_src= blocks, block
+  quotes become =#+begin_quote= blocks, and =**bold**= becomes =*bold*=.
+
+* Migrating existing transcripts
+
+If you have existing markdown transcripts from =agent-shell= (stored
+in =.agent-shell/transcripts/= directories), run:
+
+#+begin_src emacs-lisp
+M-x agent-shell-org-transcript-migrate
+#+end_src
+
+You will be prompted for a root directory.  The command finds all
+=.agent-shell/transcripts/*.md= files under it, shows a preview, asks
+for confirmation, then converts and moves them to the configured org
+directory.  Empty =.agent-shell/= directories are cleaned up
+automatically.
+
+* License
+
+GPL-3.0-or-later.  See [[file:LICENSE][LICENSE]].
