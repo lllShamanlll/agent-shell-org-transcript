@@ -6,7 +6,7 @@
 ;; URL: https://github.com/lllShamanlll/agent-shell-org-transcript
 ;; Version: 0.2.0
 ;; Package-Requires: ((emacs "29.1") (agent-shell "0.50.1"))
-;; Keywords: ai tools outlines
+;; Keywords: tools outlines
 
 ;; This package is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
