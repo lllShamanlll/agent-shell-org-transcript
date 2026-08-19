@@ -173,11 +173,13 @@ For example:
     ;; Convert block quotes: > text -> #+begin_quote\ntext\n#+end_quote
     (goto-char (point-min))
     (while (re-search-forward "^> \\(.*\\)$" nil t)
-      (replace-match "#+begin_quote\n\\1\n#+end_quote"))
+      (let ((content (match-string 1)))
+        (replace-match (concat "#+begin_quote\n" content "\n#+end_quote"))))
     ;; Convert **bold** to *bold*
     (goto-char (point-min))
     (while (re-search-forward "\\*\\*\\([^*\n]+\\)\\*\\*" nil t)
-      (replace-match "*\\1*"))
+      (let ((content (match-string 1)))
+        (replace-match (concat "*" content "*"))))
     ;; Convert horizontal rules
     (goto-char (point-min))
     (while (re-search-forward "^---+$" nil t)
